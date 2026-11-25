@@ -115,6 +115,20 @@ def editar(id):
         "index", mensaje="Tarea actualizada correctamente"
     ))
 
+@app.route("/eliminar/<int:id>", methods=["POST"])
+def eliminar(id):
+    conexion = conectar_bd()
+
+    conexion.execute(
+        "DELETE FROM tareas WHERE id = ?", (id,)
+    )
+
+    conexion.commit()
+    conexion.close()
+
+    return redirect(url_for(
+        "index", mensaje="Tarea eliminada correctamente"
+    ))
 
 inicializar_bd()
 
