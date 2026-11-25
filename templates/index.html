@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskManager</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1>TaskManager</h1>
+        <p>Sistema de gestión de tareas - TechSolutions</p>
+    </header>
+
+    <main>
+        <section>
+            <h2>Nueva tarea</h2>
+
+            {% if mensaje %}
+                <p class="mensaje">{{ mensaje }}</p>
+            {% endif %}
+
+            <form action="{{ url_for('registrar') }}" method="POST">
+                <label for="nombre">Nombre de la tarea</label>
+                <input type="text" id="nombre" name="nombre" required>
+
+                <label for="descripcion">Descripción</label>
+                <textarea id="descripcion" name="descripcion"></textarea>
+
+                <label for="prioridad">Prioridad</label>
+                <select id="prioridad" name="prioridad">
+                    <option value="Alta">Alta</option>
+                    <option value="Media">Media</option>
+                    <option value="Baja">Baja</option>
+                </select>
+
+                <button type="submit">Guardar tarea</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Tareas registradas</h2>
+
+            <div class="tabla">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th>Prioridad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tarea in tareas %}
+                        <tr>
+                            <td>{{ tarea.id }}</td>
+                            <td>{{ tarea.nombre }}</td>
+                            <td>{{ tarea.descripcion }}</td>
+                            <td>{{ tarea.estado }}</td>
+                            <td>{{ tarea.prioridad }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="5">No hay tareas registradas.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
