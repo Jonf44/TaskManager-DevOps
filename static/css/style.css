@@ -102,3 +102,11 @@ details form {
     min-width: 180px;
     margin-top: 10px;
 }
+
+.eliminar {
+    background-color: #c0392b;
+}
+
+.eliminar:hover {
+    background-color: #922b21;
+}
