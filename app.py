@@ -78,6 +78,44 @@ def registrar():
     ))
 
 
+@app.route("/editar/<int:id>", methods=["POST"])
+def editar(id):
+    nombre = request.form.get("nombre", "").strip()
+    descripcion = request.form.get("descripcion", "").strip()
+    prioridad = request.form.get("prioridad", "")
+    estado = request.form.get("estado", "")
+
+    if not nombre:
+        return redirect(url_for(
+            "index", mensaje="El nombre es obligatorio"
+        ))
+
+    if prioridad not in ["Alta", "Media", "Baja"]:
+        return redirect(url_for(
+            "index", mensaje="Prioridad no válida"
+        ))
+
+    if estado not in ["Pendiente", "En proceso", "Terminada"]:
+        return redirect(url_for(
+            "index", mensaje="Estado no válido"
+        ))
+
+    conexion = conectar_bd()
+
+    conexion.execute("""
+        UPDATE tareas
+        SET nombre = ?, descripcion = ?, prioridad = ?, estado = ?
+        WHERE id = ?
+    """, (nombre, descripcion, prioridad, estado, id))
+
+    conexion.commit()
+    conexion.close()
+
+    return redirect(url_for(
+        "index", mensaje="Tarea actualizada correctamente"
+    ))
+
+
 inicializar_bd()
 
 if __name__ == "__main__":

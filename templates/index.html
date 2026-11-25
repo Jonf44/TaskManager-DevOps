@@ -52,6 +52,7 @@
                             <th>Descripción</th>
                             <th>Estado</th>
                             <th>Prioridad</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,10 +63,50 @@
                             <td>{{ tarea.descripcion }}</td>
                             <td>{{ tarea.estado }}</td>
                             <td>{{ tarea.prioridad }}</td>
+
+                            <td>
+                                <details>
+                                    <summary>Editar</summary>
+
+                                    <form action="{{ url_for('editar', id=tarea.id) }}"
+                                          method="POST">
+
+                                        <label>Nombre</label>
+                                        <input type="text" name="nombre"
+                                               value="{{ tarea.nombre }}" required>
+
+                                        <label>Descripción</label>
+                                        <textarea name="descripcion">{{ tarea.descripcion }}</textarea>
+
+                                        <label>Prioridad</label>
+                                        <select name="prioridad">
+                                            {% for prioridad in ['Alta', 'Media', 'Baja'] %}
+                                            <option value="{{ prioridad }}"
+                                                {% if tarea.prioridad == prioridad %}selected{% endif %}>
+                                                {{ prioridad }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+
+                                        <label>Estado</label>
+                                        <select name="estado">
+                                            {% for estado in ['Pendiente', 'En proceso', 'Terminada'] %}
+                                            <option value="{{ estado }}"
+                                                {% if tarea.estado == estado %}selected{% endif %}>
+                                                {{ estado }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+
+                                        <button type="submit">Actualizar</button>
+                                    </form>
+                                </details>
+                            </td>
+
                         </tr>
                         {% else %}
                         <tr>
-                            <td colspan="5">No hay tareas registradas.</td>
+                            <td colspan="6">No hay tareas registradas.</td>
                         </tr>
                         {% endfor %}
                     </tbody>

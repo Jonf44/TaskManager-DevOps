@@ -91,3 +91,14 @@ th {
     background-color: #e5f0fa;
     border-radius: 4px;
 }
+
+summary {
+    color: #24578a;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+details form {
+    min-width: 180px;
+    margin-top: 10px;
+}
